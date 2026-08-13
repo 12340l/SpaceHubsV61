@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; overflow-y: auto;">
+      <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent: #404040;
+            --nav-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            background-attachment: fixed;
+        }
+
+        #site-header {
+            padding: 30px 20px 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            margin: 0 0 10px 0;
+        }
+
+        #search-bar {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px 20px;
+        }
+
+        #searchInput {
+            padding: 12px 20px;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            backdrop-filter: blur(5px);
+            transition: border 0.2s, background 0.2s;
+        }
+
+        #searchInput::placeholder { color: #888; }
+        #searchInput:focus {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.13);
+        }
+
+        #game-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            width: 95%;
+            max-width: 1400px;
+            margin: 10px auto 60px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            padding: 22px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .game-card h2 {
+            margin: 0 0 6px 0;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .game-card p {
+            color: #aaaaaa;
+            margin: 0;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .game-card.hidden { display: none; }
+
+        /* Overlay */
+        #game-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            display: none;
+            z-index: 100;
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        #back-btn {
+            position: absolute;
+            top: 20px; left: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 110;
+            font-size: 14px;
+        }
+
+        #back-btn:hover { background: rgba(255,255,255,0.25); }
+
+        @media (max-width: 1200px) { #game-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 900px)  { #game-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px)  { #game-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 380px)  { #game-grid { grid-template-columns: 1fr; } }
+      </style>
+
+      <div id="site-header">
+          <h1>Space Games Site</h1>
+      </div>
+
+      <div id="search-bar">
+          <input type="text" id="searchInput" placeholder="Search games..." autocomplete="off" oninput="filterGames()" />
+      </div>
+
+      <div id="game-grid">
+          <div class="game-card" onclick="launchGame('cl10minutestildawn')"><h2>10 Minutes Till Dawn</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl1v1lol')"><h2>1v1.LOL</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl2048')"><h2>2048</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl2048cupcakes')"><h2>2048 Cupcakes</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl2doom')"><h2>Doom 2</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl3dpinballspacecadet')"><h2>3d Pinball Space Cadet</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl3pandas')"><h2>3 Pandas</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl40xescape')"><h2>40x Escape</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl4thandgoal')"><h2>4th And Goal</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl8ballpool')"><h2>8 Ball Pool</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cl99balls')"><h2>99 Balls</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clachievementunlocked')"><h2>Achievement Unlocked</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clachillies')"><h2>Achillies</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clADarkRoom')"><h2>A Dark Room</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clADOFAI')"><h2>ADOFAI</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cladvancewars')"><h2>Advance Wars</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cladvancewars2')"><h2>Advance Wars 2</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cladvancewarsdualstrike')"><h2>Advance Wars Dual Strike</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clAdventureCapatalist')"><h2>Adventure Capitalist</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cladventurecapitalist')"><h2>Adventure Capitalist Alt</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clageofwar')"><h2>Age Of War</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clageofwar2')"><h2>Age Of War 2</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clagesofconflict')"><h2>Ages Of Conflict</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clalienhominid')"><h2>Alien Hominid</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clAltered Beast')"><h2>Altered Beast</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clangrybirds')"><h2>Angry Birds</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clbaldisbasics')"><h2>Baldis Basics</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clbitlife')"><h2>Bitlife</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clbloonsTD5')"><h2>Bloons TD 5</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clcookieclicker')"><h2>Cookie Clicker</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cldoom')"><h2>Doom</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('cleaglercraft152')"><h2>Eaglercraft 1.5.2</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clFNAF')"><h2>FNAF</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clgeometrydashscratch')"><h2>Geometry Dash</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clhappywheels')"><h2>Happy Wheels</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clinfinitecraft')"><h2>Infinite Craft</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clpacman')"><h2>Pac-Man</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clplinko')"><h2>Plinko</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clpokemonemerald')"><h2>Pokemon Emerald</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clretrobowl')"><h2>Retro Bowl</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clrun3')"><h2>Run 3</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clslope')"><h2>Slope</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clsmashkarts')"><h2>Smash Karts</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clsubwaysurferssanfrancisco')"><h2>Subway Surfers</h2><p>Arcade</p></div>
+          <div class="game-card" onclick="launchGame('clsupermario64')"><h2>Super Mario 64</h2><p>Arcade</p></div>
+      </div>
+
+      <div id="game-overlay">
+          <button id="back-btn" onclick="closeGame()">Back to Games</button>
+          <iframe id="game-frame" src=""></iframe>
+      </div>
+
+      <!-- Include your app logic script -->
+      <script src="app.js"></script>
+    </div>
+  </foreignObject>
+</svg>
